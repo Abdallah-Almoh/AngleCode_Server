@@ -1,0 +1,26 @@
+const express = require('express');
+const authController = require('./../controllers/authController');
+const userController = require('./../controllers/userController');
+const UserTeacherController = require('./../controllers/UserTeacherController');
+const router = express.Router();
+
+router.route('/signup').post(authController.signup);
+router.route('/login').post(authController.login);
+router.route('/forgotPassword').post(authController.forgotPassword);
+router.route('/resetPassword/:token').patch(authController.resetPassword);
+router.patch('/updateMyPassword',authController.protect,authController.updatePassword);
+router.post('/becomeTeacher',authController.protect,UserTeacherController.UploadPhoto,UserTeacherController.becomeTeacher);
+router.get('/becomeTeacherRequests',authController.protect,UserTeacherController.getAllBecomeTeacherReq);
+router.patch('/approveTeacher/:id',authController.protect,UserTeacherController.approveTeacher);
+router.get('/MyReq',authController.protect,UserTeacherController.getMyRequestToBecomeTeacher);
+router.delete('/deleteReq/:id',authController.protect,UserTeacherController.deleterequestToBecomeTeacher);
+router.get('/UsersCount',authController.protect,userController.getUsersCount);
+router.get('/favUsers',authController.protect,userController.themostcourseCreated);
+router.get('/mostuserAttend',authController.protect,userController.getTheMostCourseAttendes);
+router.get('/getUsersDet',authController.protect,userController.getUsers);
+router.get('',authController.protect,userController.getAllUsers);
+router.get('/:id',authController.protect,userController.getUser);
+router.get('/user/:id',userController.getUserFromOtherUser);
+router.patch('/UpdateUser/:id',authController.protect,userController.UploadPhoto,userController.updateUser);
+router.delete('/deleteUser/:id',authController.protect,userController.deleteUser);
+module.exports = router;
